@@ -11,7 +11,7 @@ public class Expression implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long expressionId;
+    private Long expressionId;
     private String text;
     private String translation;
 
@@ -23,17 +23,17 @@ public class Expression implements Serializable {
 
     public Expression(){};
 
-    public Expression(long expressionId, String text, String translation) {
+    public Expression(Long expressionId, String text, String translation) {
         this.expressionId = expressionId;
         this.text = text;
         this.translation = translation;
     }
 
-    public long getExpressionId() {
+    public Long getExpressionId() {
         return expressionId;
     }
 
-    public void setExpressionId(long expressionId) {
+    public void setExpressionId(Long expressionId) {
         this.expressionId = expressionId;
     }
 
