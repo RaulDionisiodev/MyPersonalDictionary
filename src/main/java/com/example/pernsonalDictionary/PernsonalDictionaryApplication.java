@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Arrays;
 
@@ -41,6 +42,7 @@ public class PernsonalDictionaryApplication implements CommandLineRunner {
 		Example firstExample = new Example(null, firstExpression, "The book is on the table");
 		Example secondExample = new Example(null, secondExpression, "You are Beautiful");
 		exampleRepository.save(firstExample);
-
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		System.out.println(encoder.encode("teste"));
 	}
 }
