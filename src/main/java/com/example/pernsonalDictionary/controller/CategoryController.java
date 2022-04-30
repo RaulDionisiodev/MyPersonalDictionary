@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/category")
@@ -32,7 +31,7 @@ public class CategoryController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PutMapping
+    @PutMapping(path = "category")
     public ResponseEntity<String>insert(@RequestBody Category category){
         try {
             categoryService.insert(category);
