@@ -3,9 +3,12 @@ package com.example.pernsonalDictionary;
 import com.example.pernsonalDictionary.model.Category;
 import com.example.pernsonalDictionary.model.Example;
 import com.example.pernsonalDictionary.model.Expression;
+import com.example.pernsonalDictionary.model.User;
 import com.example.pernsonalDictionary.repository.CategoryRepository;
 import com.example.pernsonalDictionary.repository.ExampleRepository;
 import com.example.pernsonalDictionary.repository.ExpressionRepository;
+import com.example.pernsonalDictionary.repository.UserRepository;
+import com.example.pernsonalDictionary.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,6 +26,9 @@ public class PernsonalDictionaryApplication implements CommandLineRunner {
 	private ExampleRepository exampleRepository;
 	@Autowired
 	private ExpressionRepository expressionRepository;
+
+	@Autowired
+	private UserService userService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PernsonalDictionaryApplication.class, args);
@@ -44,5 +50,7 @@ public class PernsonalDictionaryApplication implements CommandLineRunner {
 		exampleRepository.save(firstExample);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		System.out.println(encoder.encode("teste"));
+		User user = new User (null, "raul", encoder.encode("senha"), "raul", false);
+		//userService.insertUser(user);
 	}
 }
