@@ -1,9 +1,11 @@
 package com.example.pernsonalDictionary.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.pernsonalDictionary.DTO.UserDTO;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+
 
 @Entity
 public class User {
@@ -12,17 +14,14 @@ public class User {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long userId;
 
-    @NotEmpty
     @Column(unique = true)
     private String username;
 
-    @NotEmpty
+
     private String password;
 
-    @NotEmpty
     private String name;
 
-    @NotEmpty
     private boolean admin;
 
     public User(Long userId, String username, String password, String name, boolean admin) {
