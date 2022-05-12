@@ -18,15 +18,21 @@ public class Expression implements Serializable {
     @OneToMany
     @JoinColumn(name = "exampleId")
     private List<Example> exampleList;
-
+    @ManyToOne
+    @JoinColumn(name = "categoryId")
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "UserId")
+    private User owner;
 
     public Expression(){};
 
-    public Expression(Long expressionId, String text, String translation) {
+    public Expression(Long expressionId, String text, String translation, User owner) {
         this.expressionId = expressionId;
         this.text = text;
         this.translation = translation;
+        this.owner = owner;
     }
 
     public Long getExpressionId() {
@@ -63,5 +69,13 @@ public class Expression implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }
