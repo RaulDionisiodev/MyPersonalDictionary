@@ -17,7 +17,13 @@ public class ExpressionController {
     private ExpressionService expressionService;
 
     @GetMapping
-    private List<Expression> findAll(){
+    public List<Expression> findAll(){
         return expressionService.findAll();
+    }
+
+    @GetMapping
+    @RequestMapping("/top10")
+    public List<Expression> findTop10(){
+        return expressionService.findTop10();
     }
 }

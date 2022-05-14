@@ -8,4 +8,7 @@ import java.util.List;
 public interface ExpressionRepository extends JpaRepository<Expression, Integer> {
 
      List<Expression> findAllByOrderByTextAsc();
+
+     List<Expression> findTop10ByOrderByTextAsc();
+
 }

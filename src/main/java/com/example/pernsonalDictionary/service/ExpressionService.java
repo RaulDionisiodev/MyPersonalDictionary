@@ -16,4 +16,8 @@ public class ExpressionService {
     public List<Expression> findAll(){
         return expressionRepository.findAllByOrderByTextAsc();
     }
+
+    public List<Expression> findTop10(){
+        return expressionRepository.findTop10ByOrderByTextAsc();
+    }
 }
