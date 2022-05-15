@@ -16,7 +16,7 @@ public class UserService {
     public void insertUser(UserDTO dto){
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         User user = new User();
-        user.setAdmin(false);
+        user.setAdmin(true);
         user.setName(dto.getName());
         user.setPassword(encoder.encode(dto.getPassword()));
         user.setUsername(dto.getUsername());
