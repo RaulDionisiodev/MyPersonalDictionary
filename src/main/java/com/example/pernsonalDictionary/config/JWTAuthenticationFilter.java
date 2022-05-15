@@ -3,7 +3,6 @@ package com.example.pernsonalDictionary.config;
 import com.example.pernsonalDictionary.model.User;
 import com.example.pernsonalDictionary.service.CustonUserDetailsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -26,6 +26,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
     private  CustonUserDetailsService custonUserDetailsService;
     @Autowired
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -63,5 +64,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
         response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+
+        Cookie cookie = new Cookie("token", token);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(60 * 30);
+        response.addCookie(cookie);
     }
 }
