@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExpressionService {
@@ -38,5 +39,13 @@ public class ExpressionService {
 
         return expressionRepository.save(expression);
 
+    }
+
+    public void removeExpression(Expression expression){
+        expressionRepository.delete(expression);
+    }
+
+    public Optional<Expression> getExpressionById(Long id){
+        return expressionRepository.findByExpressionId(id);
     }
 }

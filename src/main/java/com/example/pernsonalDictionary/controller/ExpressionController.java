@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/expression")
@@ -44,5 +46,24 @@ public class ExpressionController {
     private User getLoggedUser(){
         Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
         return userRepository.findByUsername(authentication.getName());
+    }
+    @DeleteMapping
+    @RequestMapping("/{id}")
+    public String deleteExpression(@PathVariable Long id){
+        Optional<Expression> expressionOptional = expressionService.getExpressionById(id);
+
+        if(!expressionOptional.isPresent()){
+            return "Expressão não encontrada";
+        }
+
+        Expression expression = expressionOptional.get();
+
+        if(Objects.equals(expression.getOwner().getUserId(), getLoggedUser().getUserId())){
+            expressionService.removeExpression(expression);
+            return "Expressão removida com sucesso";
+        }else {
+            return "Expressão não encontrada";
+        }
+
     }
 }
