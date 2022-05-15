@@ -19,12 +19,12 @@ public class ExpressionService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public List<Expression> findAll(){
-        return expressionRepository.findAllByOrderByTextAsc();
+    public List<Expression> findAll(User owner){
+        return expressionRepository.findAllByOwnerOrderByTextAsc(owner);
     }
 
-    public List<Expression> findTop10(){
-        return expressionRepository.findTop10ByOrderByTextAsc();
+    public List<Expression> findTop10(User owner){
+        return expressionRepository.findTop10ByOwnerOrderByTextAsc(owner);
     }
 
     public Expression insert(ExpressionDTO dto, User user){

@@ -27,19 +27,22 @@ public class ExpressionController {
 
     @GetMapping
     public List<Expression> findAll(){
-        return expressionService.findAll();
+        return expressionService.findAll(getLoggedUser());
     }
 
     @GetMapping
     @RequestMapping("/top10")
     public List<Expression> findTop10(){
-        return expressionService.findTop10();
+        return expressionService.findTop10(getLoggedUser());
     }
 
     @PostMapping
     public Expression insert(@RequestBody ExpressionDTO dto){
+        return expressionService.insert(dto,getLoggedUser());
+    }
+
+    private User getLoggedUser(){
         Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByUsername(authentication.getName());
-        return expressionService.insert(dto,user);
+        return userRepository.findByUsername(authentication.getName());
     }
 }
