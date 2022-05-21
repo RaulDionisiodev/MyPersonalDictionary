@@ -9,12 +9,9 @@ import com.example.pernsonalDictionary.service.ExpressionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -30,19 +27,19 @@ public class ExpressionController {
     private UserRepository userRepository;
 
     @GetMapping
-    public List<Expression> findAll(){
-        return expressionService.findAll(getLoggedUser());
+    public ResponseEntity<List<Expression>> findAll(){
+        return ResponseEntity.ok(expressionService.findAll(getLoggedUser()));
     }
 
     @GetMapping
     @RequestMapping("/top10")
-    public List<Expression> findTop10(){
-        return expressionService.findTop10(getLoggedUser());
+    public ResponseEntity<List<Expression>> findTop10(){
+        return ResponseEntity.ok(expressionService.findTop10(getLoggedUser()));
     }
 
     @PostMapping
-    public Expression insert(@RequestBody ExpressionDTO dto){
-        return expressionService.insert(dto,getLoggedUser());
+    public ResponseEntity<Expression> insert(@RequestBody ExpressionDTO dto){
+        return ResponseEntity.ok(expressionService.insert(dto,getLoggedUser()));
     }
 
     private User getLoggedUser(){
@@ -51,7 +48,7 @@ public class ExpressionController {
     }
     @DeleteMapping
     @RequestMapping("/{id}")
-    public String deleteExpression(@PathVariable Long id){
+    public ResponseEntity<String> deleteExpression(@PathVariable Long id){
         Optional<Expression> expressionOptional = expressionService.getExpressionById(id);
 
         if(!expressionOptional.isPresent()){
@@ -62,7 +59,7 @@ public class ExpressionController {
 
         if(Objects.equals(expression.getOwner().getUserId(), getLoggedUser().getUserId())){
             expressionService.removeExpression(expression);
-            return "Expressão removida com sucesso";
+            return ResponseEntity.accepted().body("Expressão removida com sucesso");
         }else {
             throw new ExpressionNotFoundException("Expressão não encontrada");
         }
