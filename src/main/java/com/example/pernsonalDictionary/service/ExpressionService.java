@@ -2,6 +2,7 @@ package com.example.pernsonalDictionary.service;
 
 import com.example.pernsonalDictionary.DTO.ExpressionDTO;
 import com.example.pernsonalDictionary.exception.ExpressionNotFoundException;
+import com.example.pernsonalDictionary.model.Example;
 import com.example.pernsonalDictionary.model.Expression;
 import com.example.pernsonalDictionary.model.User;
 import com.example.pernsonalDictionary.repository.CategoryRepository;
@@ -9,6 +10,7 @@ import com.example.pernsonalDictionary.repository.ExpressionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,9 +19,11 @@ public class ExpressionService {
 
     @Autowired
     private ExpressionRepository expressionRepository;
-
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ExampleService exampleService;
 
     public List<Expression> findAll(User owner){
         return expressionRepository.findAllByOwnerOrderByTextAsc(owner);
@@ -37,6 +41,16 @@ public class ExpressionService {
         expression.setTranslation(dto.getTranslation());
         expression.setCategory(categoryRepository.findBycategoryName(dto.getCategory()).get());
         expression.setOwner(user);
+
+        expression = expressionRepository.save(expression);
+
+        List<Example> exampleList = new ArrayList<>();
+        for(String text: dto.getExampleList()){
+            Example example = exampleService.create(text, expression);
+            exampleList.add(example);
+        }
+
+        expression.setExampleList(exampleList);
 
         return expressionRepository.save(expression);
 
