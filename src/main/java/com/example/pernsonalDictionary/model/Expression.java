@@ -17,7 +17,7 @@ public class Expression implements Serializable {
     private String text;
     private String translation;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Example> exampleList;
     @ManyToOne
     @JoinColumn(name = "categoryId")

@@ -16,4 +16,8 @@ public class ExampleService {
         Example example = new Example(null, expression, text);
         return exampleRepository.save(example);
     }
+
+    public void delete(Example example){
+        exampleRepository.delete(example);
+    }
 }
