@@ -1,6 +1,7 @@
 package com.example.pernsonalDictionary.controller;
 
 import com.example.pernsonalDictionary.DTO.ExpressionDTO;
+import com.example.pernsonalDictionary.exception.ExpressionNotFoundException;
 import com.example.pernsonalDictionary.model.Expression;
 import com.example.pernsonalDictionary.model.User;
 import com.example.pernsonalDictionary.repository.UserRepository;
@@ -54,7 +55,7 @@ public class ExpressionController {
         Optional<Expression> expressionOptional = expressionService.getExpressionById(id);
 
         if(!expressionOptional.isPresent()){
-            return "Expressão não encontrada";
+            throw new ExpressionNotFoundException("Expressão não encontrada");
         }
 
         Expression expression = expressionOptional.get();
@@ -63,7 +64,7 @@ public class ExpressionController {
             expressionService.removeExpression(expression);
             return "Expressão removida com sucesso";
         }else {
-            return "Expressão não encontrada";
+            throw new ExpressionNotFoundException("Expressão não encontrada");
         }
     }
 
@@ -74,7 +75,7 @@ public class ExpressionController {
              Expression expression = expressionService.update(dto);
              return ResponseEntity.ok(expression);
         }catch (Exception e){
-            return ResponseEntity.notFound().build();
+            throw new ExpressionNotFoundException("Expressão não encontrada");
         }
     }
 }
