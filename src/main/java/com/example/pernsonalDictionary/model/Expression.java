@@ -1,5 +1,7 @@
 package com.example.pernsonalDictionary.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -15,18 +17,25 @@ public class Expression implements Serializable {
     private String text;
     private String translation;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "exampleId")
     private List<Example> exampleList;
-
+    @ManyToOne
+    @JoinColumn(name = "categoryId")
     private Category category;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "UserId")
+    private User owner;
 
     public Expression(){};
 
-    public Expression(Long expressionId, String text, String translation) {
+    public Expression(Long expressionId, String text, String translation, User owner) {
         this.expressionId = expressionId;
         this.text = text;
         this.translation = translation;
+        this.owner = owner;
     }
 
     public Long getExpressionId() {
@@ -63,5 +72,13 @@ public class Expression implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }

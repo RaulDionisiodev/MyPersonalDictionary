@@ -1,5 +1,7 @@
 package com.example.pernsonalDictionary.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -21,7 +23,7 @@ public class Example implements Serializable {
     private Long exampleId;
 
     @ManyToOne
-    @JoinColumn(name = "expressionId")
+    @JsonIgnoreProperties({"exampleList"})
     private Expression expression;
     private String text;
 

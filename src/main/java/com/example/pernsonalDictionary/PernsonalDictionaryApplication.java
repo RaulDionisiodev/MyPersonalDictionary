@@ -28,7 +28,7 @@ public class PernsonalDictionaryApplication implements CommandLineRunner {
 	private ExpressionRepository expressionRepository;
 
 	@Autowired
-	private UserService userService;
+	private UserRepository userRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PernsonalDictionaryApplication.class, args);
@@ -36,21 +36,20 @@ public class PernsonalDictionaryApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		User user = new User (null, "raul", "senha", "raul", false);
+		userRepository.save(user);
 		Category firstCategory = new Category(null, "Noum");
 		Category secondCategory = new Category(null, "Adjectuve");
 		categoryRepository.saveAll(Arrays.asList(firstCategory, secondCategory));
-		Expression firstExpression = new Expression(null, "Book", "Livro");
+		Expression firstExpression = new Expression(null, "Book", "Livro", user);
 		firstExpression.setCategory(firstCategory);
 		Expression secondExpression =  new Expression(null, "Beautiful",
-				"bonita");
+				"bonita", user);
 		secondExpression.setCategory(secondCategory);
 		expressionRepository.saveAll(Arrays.asList(firstExpression, secondExpression));
 		Example firstExample = new Example(null, firstExpression, "The book is on the table");
 		Example secondExample = new Example(null, secondExpression, "You are Beautiful");
 		exampleRepository.save(firstExample);
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		System.out.println(encoder.encode("teste"));
-		User user = new User (null, "raul", encoder.encode("senha"), "raul", false);
-		//userService.insertUser(user);
+		exampleRepository.save(secondExample);
 	}
 }
