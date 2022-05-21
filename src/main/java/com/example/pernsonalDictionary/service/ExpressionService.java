@@ -1,6 +1,7 @@
 package com.example.pernsonalDictionary.service;
 
 import com.example.pernsonalDictionary.DTO.ExpressionDTO;
+import com.example.pernsonalDictionary.exception.ExpressionNotFoundException;
 import com.example.pernsonalDictionary.model.Expression;
 import com.example.pernsonalDictionary.model.User;
 import com.example.pernsonalDictionary.repository.CategoryRepository;
@@ -33,7 +34,7 @@ public class ExpressionService {
         Expression expression = new Expression();
 
         expression.setText(dto.getText());
-        expression.setText(dto.getText());
+        expression.setTranslation(dto.getTranslation());
         expression.setCategory(categoryRepository.findBycategoryName(dto.getCategory()).get());
         expression.setOwner(user);
 
@@ -48,4 +49,21 @@ public class ExpressionService {
     public Optional<Expression> getExpressionById(Long id){
         return expressionRepository.findByExpressionId(id);
     }
+
+    public Expression update(ExpressionDTO dto){
+        Optional<Expression> expression = expressionRepository.findByExpressionId(dto.getId());
+
+        if(expression.isPresent()){
+            Expression newExpression = expression.get();
+
+            newExpression.setText(dto.getText());
+            newExpression.setTranslation(dto.getTranslation());
+            newExpression.setCategory(categoryRepository.findBycategoryName(dto.getCategory()).get());
+
+            return expressionRepository.save(newExpression);
+        }else {
+            throw new ExpressionNotFoundException("Expressão não encontrada");
+        }
+    }
+
 }

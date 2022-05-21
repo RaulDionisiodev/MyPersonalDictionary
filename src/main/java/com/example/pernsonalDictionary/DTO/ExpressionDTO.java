@@ -7,13 +7,15 @@ public class ExpressionDTO {
     private String text;
     private String translation;
     private String category;
+    private Long id;
 
     public ExpressionDTO(){}
 
-    public ExpressionDTO(String text, String translation, String category) {
+    public ExpressionDTO(String text, String translation, String category, Long id) {
         this.text = text;
         this.translation = translation;
         this.category = category;
+        this.id = id;
     }
 
     public String getText() {
@@ -38,5 +40,13 @@ public class ExpressionDTO {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

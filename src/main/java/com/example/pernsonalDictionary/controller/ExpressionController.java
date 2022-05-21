@@ -6,6 +6,7 @@ import com.example.pernsonalDictionary.model.User;
 import com.example.pernsonalDictionary.repository.UserRepository;
 import com.example.pernsonalDictionary.service.ExpressionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -64,6 +65,16 @@ public class ExpressionController {
         }else {
             return "Expressão não encontrada";
         }
+    }
 
+    @PostMapping
+    @RequestMapping("/update")
+    public ResponseEntity<Expression> update(@RequestBody ExpressionDTO dto){
+        try {
+             Expression expression = expressionService.update(dto);
+             return ResponseEntity.ok(expression);
+        }catch (Exception e){
+            return ResponseEntity.notFound().build();
+        }
     }
 }
