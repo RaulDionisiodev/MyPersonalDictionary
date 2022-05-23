@@ -1,7 +1,6 @@
 package com.example.pernsonalDictionary.controller;
 
 import com.example.pernsonalDictionary.model.Category;
-import com.example.pernsonalDictionary.model.Example;
 import com.example.pernsonalDictionary.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

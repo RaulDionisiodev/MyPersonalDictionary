@@ -17,8 +17,7 @@ public class Expression implements Serializable {
     private String text;
     private String translation;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "exampleId")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Example> exampleList;
     @ManyToOne
     @JoinColumn(name = "categoryId")
@@ -80,5 +79,9 @@ public class Expression implements Serializable {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public void setExampleList(List<Example> exampleList) {
+        this.exampleList = exampleList;
     }
 }

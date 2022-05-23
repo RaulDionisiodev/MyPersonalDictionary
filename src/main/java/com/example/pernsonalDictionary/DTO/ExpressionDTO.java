@@ -9,6 +9,8 @@ public class ExpressionDTO {
     private String category;
     private Long id;
 
+    private List<String> exampleList;
+
     public ExpressionDTO(){}
 
     public ExpressionDTO(String text, String translation, String category, Long id) {
@@ -48,5 +50,13 @@ public class ExpressionDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<String> getExampleList() {
+        return exampleList;
+    }
+
+    public void setExampleList(List<String> exampleList) {
+        this.exampleList = exampleList;
     }
 }
