@@ -73,6 +73,16 @@ public class ExpressionService {
             newExpression.setText(dto.getText());
             newExpression.setTranslation(dto.getTranslation());
             newExpression.setCategory(categoryRepository.findBycategoryName(dto.getCategory()).get());
+            
+            newExpression.getExampleList().clear();
+
+            List<Example> exampleList = new ArrayList<>();
+            for(String text: dto.getExampleList()){
+                Example example = exampleService.create(text, newExpression);
+                exampleList.add(example);
+            }
+
+            newExpression.setExampleList(exampleList);
 
             return expressionRepository.save(newExpression);
         }else {
