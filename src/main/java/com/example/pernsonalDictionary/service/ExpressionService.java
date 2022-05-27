@@ -60,8 +60,8 @@ public class ExpressionService {
         expressionRepository.delete(expression);
     }
 
-    public Optional<Expression> getExpressionById(Long id){
-        return expressionRepository.findByExpressionId(id);
+    public Optional<Expression> getExpressionById(User user, Long id){
+        return expressionRepository.findByOwnerAndExpressionId(user, id);
     }
 
     public Expression update(ExpressionDTO dto){
@@ -88,6 +88,10 @@ public class ExpressionService {
         }else {
             throw new ExpressionNotFoundException("Expressão não encontrada");
         }
+    }
+
+    public Optional<Expression> findByText(User user, String text){
+        return expressionRepository.findByOwnerAndText(user, text);
     }
 
 }

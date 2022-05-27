@@ -49,7 +49,7 @@ public class ExpressionController {
     @DeleteMapping
     @RequestMapping("/{id}")
     public ResponseEntity<String> deleteExpression(@PathVariable Long id){
-        Optional<Expression> expressionOptional = expressionService.getExpressionById(id);
+        Optional<Expression> expressionOptional = expressionService.getExpressionById(getLoggedUser(), id);
 
         if(!expressionOptional.isPresent()){
             throw new ExpressionNotFoundException("Expressão não encontrada");
@@ -74,5 +74,23 @@ public class ExpressionController {
         }catch (Exception e){
             throw new ExpressionNotFoundException("Expressão não encontrada");
         }
+    }
+
+    @GetMapping
+    @RequestMapping("/id={id}")
+    public ResponseEntity<Expression>findExpressionById(@PathVariable Long id){
+        Optional<Expression> expression = expressionService.getExpressionById(getLoggedUser(), id);
+
+        return expression.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    @RequestMapping("/text={text}")
+    public ResponseEntity<Expression>findByText(@PathVariable String text){
+
+        Optional<Expression> expression = expressionService.findByText(getLoggedUser(), text);
+
+        return expression.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+
     }
 }

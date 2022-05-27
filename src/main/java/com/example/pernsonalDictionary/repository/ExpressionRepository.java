@@ -17,6 +17,8 @@ public interface ExpressionRepository extends JpaRepository<Expression, Integer>
 
      Optional<Expression> findByExpressionId(Long id);
 
-     Optional<Expression> findByText(String text);
+     Optional<Expression> findByOwnerAndExpressionId(User owner, Long id);
+
+     Optional<Expression> findByOwnerAndText(User owner, String text);
 
 }
