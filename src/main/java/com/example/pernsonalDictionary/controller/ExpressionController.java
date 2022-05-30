@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -86,11 +87,13 @@ public class ExpressionController {
 
     @GetMapping
     @RequestMapping("/text={text}")
-    public ResponseEntity<Expression>findByText(@PathVariable String text){
+    public ResponseEntity<List<Expression>>findByText(@PathVariable String text){
 
+        List<Expression> expressionList = new ArrayList<>();
         Optional<Expression> expression = expressionService.findByText(getLoggedUser(), text);
-
-        return expression.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        expression.ifPresent(expressionList::add);
+        
+        return ResponseEntity.ok(expressionList);
 
     }
 }
