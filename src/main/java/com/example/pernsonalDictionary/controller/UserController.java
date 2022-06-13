@@ -1,6 +1,8 @@
 package com.example.pernsonalDictionary.controller;
 
 import com.example.pernsonalDictionary.DTO.UserDTO;
+import com.example.pernsonalDictionary.exception.BlankFieldException;
+import com.example.pernsonalDictionary.exception.UserAlreadyExistsException;
 import com.example.pernsonalDictionary.model.User;
 import com.example.pernsonalDictionary.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,15 @@ public class UserController {
     private UserService service;
 
     @PutMapping
-    private ResponseEntity<String>insertUser(@RequestBody UserDTO userDTO){
+    private ResponseEntity<String>insertUser(@RequestBody UserDTO userDTO) throws UserAlreadyExistsException {
+
+        if(userDTO.validate()) throw new BlankFieldException("Os campos não podem ficar em branco");
+
+        if(service.existsByUsername(userDTO.getUsername())){
+             throw new UserAlreadyExistsException("Username não disponível");
+        }
+
         try {
-            if(userDTO.validate()) throw new Exception();
             service.insertUser(userDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body("Usuário cadastrado com sucesso");
         }catch (Exception e){

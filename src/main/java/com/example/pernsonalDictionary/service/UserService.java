@@ -22,4 +22,8 @@ public class UserService {
         user.setUsername(dto.getUsername());
         repository.save(user);
     }
+
+    public boolean existsByUsername(String userName){
+        return repository.existsUserByUsername(userName);
+    }
 }
